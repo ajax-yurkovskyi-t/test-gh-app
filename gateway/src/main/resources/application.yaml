@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+nats:
+  spring:
+    io.nats.client:
+      servers: ${NATS_URI}
+
+grpc:
+  server:
+    port: 9091
+    security:
+      enabled: false

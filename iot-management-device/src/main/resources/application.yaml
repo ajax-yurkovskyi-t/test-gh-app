@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: iot_management_device
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DB}?authSource=admin
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 100ms
+      ttl: 3m
+
+  main:
+    web-application-type: reactive
+  security:
+    public:
+      endpoints: /v3/api-docs/**,/swagger-ui/**,/users/**,/error,/auth/**,/devices/**
+  kafka:
+    bootstrap-servers: http://localhost:9092
+
+mongock:
+  migration-scan-package: com.example.iotmanagementdevice.mongock.changelogs
+
+jwt:
+  expiration: 300000000
+  secret: P23wHHMjD4anZ+9DlEYXmcDf481v0Ptmcq9LzVtBcLjR79e5wD1MyEZgOI2a8Cw9
+
+nats:
+  spring:
+    io.nats.client:
+      servers: ${NATS_URI}
+
+server:
+  port: 8081
