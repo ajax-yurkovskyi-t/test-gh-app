@@ -10,11 +10,17 @@ allprojects {
         mavenCentral()
 
         maven {
-            credentials(AwsCredentials::class.java) {
-                accessKey = extra["AWS_ACCESS_KEY_ID"].toString()
-                secretKey = extra["AWS_SECRET_ACCESS_KEY"].toString()
+            url = uri(providers.gradleProperty("systems.ajax.mavenRepository.snapshots"))
+            if (extra.properties.containsKey("ci")) {
+                authentication {
+                    create<AwsImAuthentication>("awsIm")
+                }
+            } else {
+                credentials(AwsCredentials::class.java) {
+                    accessKey = extra["AWS_ACCESS_KEY_ID"].toString()
+                    secretKey = extra["AWS_SECRET_ACCESS_KEY"].toString()
+                }
             }
-            url = uri(extra["repository"].toString())
         }
     }
 }
