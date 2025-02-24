@@ -75,6 +75,7 @@ runs:
           
             sha = pr.data.head.sha;
           }
+          console.log(`Target SHA: ${sha}`);
           return sha;
 
     - name: List Check Runs For Commit Sha
