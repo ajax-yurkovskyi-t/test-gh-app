@@ -6,6 +6,9 @@ on:
       target-repo:
         description: 'Target repository name'
         required: true
+      target-pr-number:
+        description: 'Target Pr Number'
+        required: true
 
 permissions:
   actions: write
@@ -26,3 +29,4 @@ jobs:
           title: No title
           summary: No summary
           text: Some text
+          target-pr-number: ${{ inputs.target-pr-number }}
