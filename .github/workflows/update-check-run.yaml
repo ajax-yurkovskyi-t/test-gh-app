@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Update check run
-        uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/empty
+        uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/emptyness
         with:
           target-repo: ${{ inputs.target-repo }}
           check-run-name: Test Coverage
