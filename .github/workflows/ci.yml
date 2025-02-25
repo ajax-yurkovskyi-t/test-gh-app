@@ -46,7 +46,7 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Delta
-        uses: /.github/actions/delta-action/action.yaml
+        uses: .github/actions/delta-action/action.yaml
 
       - name: Run gradle build
         run: ${gradle_cmd} build
