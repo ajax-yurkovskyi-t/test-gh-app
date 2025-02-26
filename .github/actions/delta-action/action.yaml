@@ -43,23 +43,6 @@ runs:
           fs.writeFileSync(allSummariesFile, allSummaries);
           core.setOutput('file', allSummariesFile);
 
-    - name: Create Check Run
-      id: create-check-runs
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ inputs.github-token }}
-        script: |
-          const createCheckRuns = require('${{ github.action_path }}/.github/actions/delta-action/actions/create-check-runs.js');
-          const checkRuns = await createCheckRuns({
-            summaryReportPath: `${{ steps.all-summaries.outputs.file }}`,
-            ignoreCoverageFailure: ${{ inputs.suppress-check-failures }},
-            core: core,
-            context: context,
-            github: github,
-            headSha: `${{ github.event.pull_request.head.sha }}`
-          });
-          core.setOutput('check-runs', checkRuns);
-
     - name: Create Comment Marker
       id: comment-marker
       if: ${{ inputs.title != '' }}

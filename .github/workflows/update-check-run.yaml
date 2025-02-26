@@ -9,6 +9,12 @@ on:
       target-pr-number:
         description: 'Target Pr Number'
         required: true
+      check-run-ids:
+        description: 'Target Pr Number'
+        required: false
+      conclusion:
+        description: 'Target Pr Number'
+        required: false
 
 permissions:
   actions: write
@@ -34,10 +40,7 @@ jobs:
         uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/emptyness
         with:
           target-repo: ${{ inputs.target-repo }}
-          check-run-name: Test Coverage
-          conclusion: success
-          title: No title
-          summary: No summary
-          text: Some text
+          conclusion: ${{ inputs.conclusion }}
+          check-run-ids: ${{ inputs.check-run-ids }}
           target-pr-number: ${{ inputs.target-pr-number }}
           github-token: ${{ steps.generate-app-token.outputs.token }}
