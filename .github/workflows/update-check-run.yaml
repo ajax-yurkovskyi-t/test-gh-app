@@ -6,23 +6,58 @@ on:
       target-repo:
         description: 'Target repository name'
         required: true
+      target-pr-number:
+        description: 'Target Pr Number'
+        required: true
+      check-run-ids:
+        description: 'List of Check Run IDs'
+        required: false
+      conclusion:
+        description: 'Conclusion of the check run'
+        required: false
+      check-run-name:
+        description: 'Name of the check run'
+        required: false
+      title:
+        description: 'Title of the check run body'
+        required: false
+      status:
+        description: 'Status of check run'
+        required: false
+      summary:
+        description: 'Summary of the check run body'
+        required: false
+      text:
+        description: 'Text of the check run body'
+        required: false
 
 permissions:
-  actions: write
   checks: write
-  contents: read
 
 jobs:
   update-check-run:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Generate a token
+        id: generate-app-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v1.9.3
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.JAVA_BACKEND_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Update check run
-        uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/empty
+        uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/emptyness
         with:
           target-repo: ${{ inputs.target-repo }}
-          check-run-name: Test Coverage
-          conclusion: success
-          title: No title
-          summary: No summary
-          text: Some text
+          target-pr-number: ${{ inputs.target-pr-number }}
+          check-run-ids: ${{ inputs.check-run-ids }}
+          conclusion: ${{ inputs.conclusion }}
+          check-run-name: ${{ inputs.check-run-name }}
+          title: ${{ inputs.title }}
+          status: ${{ inputs.status }}
+          summary: ${{ inputs.summary }}
+          text: ${{ inputs.text }}
+          github-token: ${{ steps.generate-app-token.outputs.token }}
