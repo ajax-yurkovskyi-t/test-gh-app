@@ -44,12 +44,12 @@ jobs:
         continue-on-error: true
         uses: actions/create-github-app-token@v1.9.3
         with:
-          app-id: ${{ vars.JAVA_BACKEND_APP_ID }}
+          app-id: ${{ secrets.GH_APP_ID }}
           private-key: ${{ secrets.JAVA_BACKEND_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
       - name: Update check run
-        uses: ajax-systems/github-actions/reporting/update-check-run@ajax-v3
+        uses: ajax-yurkovskyi-t/test-gh-app/.github/actions/update-check-run@feature/emptyness
         with:
           target-repo: ${{ inputs.target-repo }}
           target-pr-number: ${{ inputs.target-pr-number }}
