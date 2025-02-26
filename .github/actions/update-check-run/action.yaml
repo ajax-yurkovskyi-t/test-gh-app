@@ -3,7 +3,7 @@ description: Update check run action
 
 inputs:
   check-run-ids:
-    description: 'Array of Check Run IDs'
+    description: 'List of Check Run IDs'
     required: false
 
   check-run-name:
@@ -115,7 +115,6 @@ runs:
             return checkRun.id;
           }
 
-
     - name: Update Check Run
       id: update-check-run
       uses: actions/github-script@v7
@@ -124,6 +123,11 @@ runs:
         script: |
           const [owner, repo] = "${{ inputs.target-repo }}".split('/');
           let checkRunIds = "${{ inputs.check-run-ids }}";
+          const checkRunName = "${{ inputs.check-run-name }}";
+          if (!checkRunIds && !checkRunName) {
+            core.setFailed('One of check-run-ids or check-run-name must be provided.');
+          }
+          
           checkRunIds = checkRunIds ? checkRunIds.split(',') : [${{ steps.find-check-run.outputs.result }}];
           for (const checkRunId of checkRunIds) {                                                                  
             const checkRunData = {
@@ -166,5 +170,5 @@ runs:
               }
             }
           
-            const checkRun = await github.rest.checks.update(checkRunData);
+            await github.rest.checks.update(checkRunData);
           }
